@@ -1,11 +1,11 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test.exception;
+package io.github.davidebocca.util.unit.test.exception;
 
 import java.text.MessageFormat;
 
-import it.davidebocca.util.unit.test.utils.LoggingUtils;
+import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
 
 /**
  * @author cr10248

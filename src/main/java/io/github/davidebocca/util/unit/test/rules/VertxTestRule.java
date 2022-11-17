@@ -1,17 +1,17 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test.rules;
+package io.github.davidebocca.util.unit.test.rules;
 
+import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
+import io.github.davidebocca.util.unit.test.exception.UnitTestException;
+import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
+import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
+import io.github.davidebocca.util.unit.test.rules.utils.VertxTestRuleConfig;
+import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;
 import io.vertx.junit5.Checkpoint;
-import it.davidebocca.util.unit.test.exception.UnitTestException;
-import it.davidebocca.util.unit.test.exception.ErrorCodeEnum;
-import it.davidebocca.util.unit.test.rules.utils.AbstractRule;
-import it.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
-import it.davidebocca.util.unit.test.rules.utils.VertxTestRuleConfig;
-import it.davidebocca.util.unit.test.utils.LoggingUtils;
 
 /**
  * @author cr10248

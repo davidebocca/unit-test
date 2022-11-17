@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test.utils;
+package io.github.davidebocca.util.unit.test.utils;
 
 import java.text.MessageFormat;
 
@@ -10,8 +10,8 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import it.davidebocca.util.unit.test.exception.ErrorCodeEnum;
-import it.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
+import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
+import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
 
 /**
  * @author cr10248

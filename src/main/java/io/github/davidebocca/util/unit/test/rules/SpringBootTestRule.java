@@ -1,17 +1,17 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test.rules;
+package io.github.davidebocca.util.unit.test.rules;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import it.davidebocca.util.unit.test.exception.UnitTestException;
-import it.davidebocca.util.unit.test.exception.ErrorCodeEnum;
-import it.davidebocca.util.unit.test.rules.utils.AbstractRule;
-import it.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
-import it.davidebocca.util.unit.test.rules.utils.SpringBootTestConfig;
-import it.davidebocca.util.unit.test.utils.LoggingUtils;
+import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
+import io.github.davidebocca.util.unit.test.exception.UnitTestException;
+import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
+import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
+import io.github.davidebocca.util.unit.test.rules.utils.SpringBootTestConfig;
+import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
 
 /**
  * @author cr10248

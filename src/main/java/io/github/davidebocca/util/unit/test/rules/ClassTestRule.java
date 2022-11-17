@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test.rules;
+package io.github.davidebocca.util.unit.test.rules;
 
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -14,11 +14,11 @@ import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
-import it.davidebocca.util.unit.test.exception.ErrorCodeEnum;
-import it.davidebocca.util.unit.test.exception.UnitTestException;
-import it.davidebocca.util.unit.test.rules.utils.AbstractRule;
-import it.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
-import it.davidebocca.util.unit.test.utils.LoggingUtils;
+import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
+import io.github.davidebocca.util.unit.test.exception.UnitTestException;
+import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
+import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
+import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
 
 /**
  * @author cr10248

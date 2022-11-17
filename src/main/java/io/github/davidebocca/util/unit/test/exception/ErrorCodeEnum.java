@@ -1,9 +1,9 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test.exception;
+package io.github.davidebocca.util.unit.test.exception;
 
-import it.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
+import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
 
 /**
  * @author cr10248

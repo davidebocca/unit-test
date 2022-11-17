@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test;
+package io.github.davidebocca.util.unit.test;
 
 import java.text.MessageFormat;
 import java.util.List;
@@ -9,8 +9,8 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import it.davidebocca.util.unit.test.exception.UnitTestException;
-import it.davidebocca.util.unit.test.rules.utils.AbstractRule;
+import io.github.davidebocca.util.unit.test.exception.UnitTestException;
+import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 
 /**
  * @author cr10248

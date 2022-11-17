@@ -1,7 +1,7 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test.rules.utils;
+package io.github.davidebocca.util.unit.test.rules.utils;
 
 import java.util.HashMap;
 import java.util.List;

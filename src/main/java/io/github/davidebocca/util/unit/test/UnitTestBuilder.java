@@ -1,23 +1,23 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test;
+package io.github.davidebocca.util.unit.test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import it.davidebocca.util.unit.test.exception.UnitTestException;
-import it.davidebocca.util.unit.test.exception.ErrorCodeEnum;
-import it.davidebocca.util.unit.test.rules.ClassTestRule;
-import it.davidebocca.util.unit.test.rules.PojoTestRule;
-import it.davidebocca.util.unit.test.rules.SpringBootTestRule;
-import it.davidebocca.util.unit.test.rules.UtilClassTestRule;
-import it.davidebocca.util.unit.test.rules.VertxTestRule;
-import it.davidebocca.util.unit.test.rules.utils.AbstractRule;
-import it.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
-import it.davidebocca.util.unit.test.rules.utils.SpringBootTestConfig;
-import it.davidebocca.util.unit.test.rules.utils.VertxTestRuleConfig;
-import it.davidebocca.util.unit.test.utils.LoggingUtils;
+import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
+import io.github.davidebocca.util.unit.test.exception.UnitTestException;
+import io.github.davidebocca.util.unit.test.rules.ClassTestRule;
+import io.github.davidebocca.util.unit.test.rules.PojoTestRule;
+import io.github.davidebocca.util.unit.test.rules.SpringBootTestRule;
+import io.github.davidebocca.util.unit.test.rules.UtilClassTestRule;
+import io.github.davidebocca.util.unit.test.rules.VertxTestRule;
+import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
+import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
+import io.github.davidebocca.util.unit.test.rules.utils.SpringBootTestConfig;
+import io.github.davidebocca.util.unit.test.rules.utils.VertxTestRuleConfig;
+import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
 
 /**
  * @author cr10248

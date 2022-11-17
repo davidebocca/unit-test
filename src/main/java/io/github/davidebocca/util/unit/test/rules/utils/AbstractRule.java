@@ -1,9 +1,9 @@
 /**
  * 
  */
-package it.davidebocca.util.unit.test.rules.utils;
+package io.github.davidebocca.util.unit.test.rules.utils;
 
-import it.davidebocca.util.unit.test.exception.UnitTestException;
+import io.github.davidebocca.util.unit.test.exception.UnitTestException;
 
 /**
  * @author cr10248
