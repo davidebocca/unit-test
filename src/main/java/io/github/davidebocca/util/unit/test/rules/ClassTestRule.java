@@ -3,12 +3,11 @@
  */
 package io.github.davidebocca.util.unit.test.rules;
 
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -32,6 +31,8 @@ public class ClassTestRule extends AbstractRule {
 	private List<Class<?>> clazzList = new ArrayList<>();
 	private String[] classPackages = new String[] {};
 
+	private Map<String, List<String>> exclusionMap;
+
 	/**
 	 * 
 	 */
@@ -40,7 +41,7 @@ public class ClassTestRule extends AbstractRule {
 		return RuleIdEnum.CLASS;
 	}
 
-	public ClassTestRule withClassList(List<Class<?>> clazzList) throws UnitTestException {
+	public ClassTestRule withClassList(List<Class<?>> clazzList, Map<String, List<String>> exclusionMap) throws UnitTestException {
 
 		if (clazzList == null || clazzList.isEmpty()) {
 			LoggingUtils.manageError(ErrorCodeEnum.CLASS_001);
@@ -48,10 +49,12 @@ public class ClassTestRule extends AbstractRule {
 		}
 
 		this.clazzList = clazzList;
+		this.exclusionMap = exclusionMap;
+
 		return this;
 	}
 
-	public ClassTestRule withClassPackages(String[] classPackages) throws UnitTestException {
+	public ClassTestRule withClassPackages(String[] classPackages, Map<String, List<String>> exclusionMap) throws UnitTestException {
 
 		if (classPackages == null || classPackages.length == 0) {
 			LoggingUtils.manageError(ErrorCodeEnum.CLASS_002);
@@ -59,6 +62,8 @@ public class ClassTestRule extends AbstractRule {
 		}
 
 		this.classPackages = classPackages;
+		this.exclusionMap = exclusionMap;
+
 		return this;
 	}
 
@@ -155,11 +160,11 @@ public class ClassTestRule extends AbstractRule {
 				// call toString
 				obj.toString();
 
-				for (PropertyDescriptor pd : Introspector.getBeanInfo(clazz).getPropertyDescriptors()) {
-					if (pd.getReadMethod() != null && !"class".equals(pd.getName())) {
-						pd.getReadMethod().invoke(obj);
-					}
-				}
+				// for (PropertyDescriptor pd : Introspector.getBeanInfo(clazz).getPropertyDescriptors()) {
+				// if (pd.getReadMethod() != null && !"class".equals(pd.getName())) {
+				// pd.getReadMethod().invoke(obj);
+				// }
+				// }
 			}
 
 		} catch (Exception e) {
