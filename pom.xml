@@ -42,7 +42,7 @@
 
 		<openpojo.version>0.8.10</openpojo.version>
 
-		<vertx.version>3.8.4</vertx.version>
+		<vertx.version>3.9.4</vertx.version>
 
 		<log4j.version>2.13.0</log4j.version>
 
