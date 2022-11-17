@@ -3,7 +3,7 @@
 
 	<groupId>io.github.davidebocca</groupId>
 	<artifactId>unit-test</artifactId>
-	<version>0.0.5</version>
+	<version>0.0.6</version>
 
 	<name>Util library for unit-testing</name>
 	<description>Simple library to help developments of util tests</description>
@@ -197,7 +197,7 @@
 				<configuration>
 					<serverId>ossrh</serverId>
 					<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>true</autoReleaseAfterClose>
+					<autoReleaseAfterClose>false</autoReleaseAfterClose>
 				</configuration>
 				<dependencies>
 					<dependency>

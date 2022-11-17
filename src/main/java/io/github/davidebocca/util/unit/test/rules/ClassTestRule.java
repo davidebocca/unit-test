@@ -143,13 +143,16 @@ public class ClassTestRule extends AbstractRule {
 					obj2 = c.newInstance();
 				}
 
+				// call equals
 				obj.equals(obj2);
 				obj.equals(obj);
 				obj.equals(null);
 				obj.equals(new Object());
 
+				// call hashcode
 				obj.hashCode();
 
+				// call toString
 				obj.toString();
 
 				for (PropertyDescriptor pd : Introspector.getBeanInfo(clazz).getPropertyDescriptors()) {
