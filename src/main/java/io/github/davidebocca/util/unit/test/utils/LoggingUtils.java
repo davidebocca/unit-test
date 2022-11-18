@@ -90,7 +90,7 @@ public class LoggingUtils {
 			String p = extraParams[i - 1];
 
 			if (StringUtils.isNotBlank(p)) {
-				tmp = tmp.concat(MessageFormat.format(" - Param {0}: {1}", i, p));
+				tmp = tmp.concat(MessageFormat.format(" - {0}", p));
 			}
 		}
 

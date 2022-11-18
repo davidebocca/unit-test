@@ -62,59 +62,52 @@ public class PojoTestRule extends AbstractRule {
 	@Override
 	public void executeTest() throws UnitTestException {
 
-		try {
+		// openPojo initialization
+		initializeOpenPojoValidator();
 
-			// openPojo initialization
-			initializeOpenPojoValidator();
+		LoggingUtils.logTestStep(RuleIdEnum.POJO, "Build class list to test");
 
-			LoggingUtils.logTestStep(RuleIdEnum.POJO, "Build class list to test");
+		// add classes from packages
+		for (PackageConf pack : testConf.getPackages()) {
 
-			// add classes from packages
-			for (PackageConf pack : testConf.getPackages()) {
+			LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding classes from package ".concat(pack.toString()));
 
-				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding classes from package ".concat(pack.toString()));
+			if (pack.isRecursive()) {
+				pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack.getName(), null);
+			} else {
+				pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack.getName()));
+			}
+		}
 
-				if (pack.isRecursive()) {
-					pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack.getName(), null);
-				} else {
-					pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack.getName()));
+		// add single classes
+		for (ClassConf cl : testConf.getClasses()) {
+			LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding single class ".concat(cl.getClazz().getName()));
+			pojoClazzList.add(PojoClassFactory.getPojoClass(cl.getClazz()));
+		}
+
+		for (PojoClass clazz : pojoClazzList) {
+
+			if (!testConf.isIncludeTestClasses() && Utils.isClassTest(clazz.getClazz())) {
+				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Skip test class ".concat(clazz.getClazz().getName()));
+				continue;
+			}
+
+			LoggingUtils.logTestStep(RuleIdEnum.POJO, "Test class ".concat(clazz.getClazz().getName()));
+
+			boolean found = false;
+
+			for (PojoExclusionConf exc : testConf.getExclusions()) {
+				if (exc.getClazz().equals(clazz.getClazz())) {
+					PojoClassExcludedFields tmp = new PojoClassExcludedFields(clazz, new HashSet<>(exc.getFieldsToExclude()));
+					openPojoTestClass(tmp);
+					found = true;
+					break;
 				}
 			}
 
-			// add single classes
-			for (ClassConf cl : testConf.getClasses()) {
-				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding single class ".concat(cl.getClazz().getName()));
-				pojoClazzList.add(PojoClassFactory.getPojoClass(cl.getClazz()));
+			if (!found) {
+				openPojoTestClass(clazz);
 			}
-
-			for (PojoClass clazz : pojoClazzList) {
-
-				if (!testConf.isIncludeTestClasses() && Utils.isClassTest(clazz.getClazz())) {
-					LoggingUtils.logTestStep(RuleIdEnum.POJO, "Skip test class ".concat(clazz.getClazz().getName()));
-					continue;
-				}
-
-				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Test class ".concat(clazz.getClazz().getName()));
-
-				boolean found = false;
-
-				for (PojoExclusionConf exc : testConf.getExclusions()) {
-					if (exc.getClazz().equals(clazz.getClazz())) {
-						PojoClassExcludedFields tmp = new PojoClassExcludedFields(clazz, new HashSet<>(exc.getFieldsToExclude()));
-						openPojoTestClass(tmp);
-						found = true;
-						break;
-					}
-				}
-
-				if (!found) {
-					openPojoTestClass(clazz);
-				}
-			}
-
-		} catch (AssertionError e) {
-			LoggingUtils.manageError(ErrorCodeEnum.POJO_002, ExceptionUtils.getRootCauseMessage(e));
-			throw new UnitTestException(ErrorCodeEnum.POJO_002, ExceptionUtils.getRootCauseMessage(e));
 		}
 
 	}
@@ -132,8 +125,13 @@ public class PojoTestRule extends AbstractRule {
 
 	}
 
-	private void openPojoTestClass(PojoClass clazz) {
-		validator.validate(clazz);
+	private void openPojoTestClass(PojoClass clazz) throws UnitTestException {
+		try {
+			validator.validate(clazz);
+		} catch (AssertionError e) {
+			LoggingUtils.manageError(ErrorCodeEnum.POJO_002, "Class " + clazz.getName(), ExceptionUtils.getRootCauseMessage(e));
+			throw new UnitTestException(ErrorCodeEnum.POJO_002, "Class " + clazz.getName(), ExceptionUtils.getRootCauseMessage(e));
+		}
 	}
 
 }

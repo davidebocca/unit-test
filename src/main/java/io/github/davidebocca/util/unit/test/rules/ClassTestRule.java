@@ -70,8 +70,8 @@ public class ClassTestRule extends AbstractRule {
 			}
 
 		} catch (AssertionError e) {
-			LoggingUtils.manageError(ErrorCodeEnum.CLASS_003, ExceptionUtils.getRootCauseMessage(e));
-			throw new UnitTestException(ErrorCodeEnum.CLASS_003, ExceptionUtils.getRootCauseMessage(e));
+			LoggingUtils.manageError(ErrorCodeEnum.CLASS_002, ExceptionUtils.getRootCauseMessage(e));
+			throw new UnitTestException(ErrorCodeEnum.CLASS_002, ExceptionUtils.getRootCauseMessage(e));
 		}
 
 	}
@@ -80,28 +80,29 @@ public class ClassTestRule extends AbstractRule {
 
 		List<String> classNames;
 
-		try {
-			ScanResult scanResult;
-			ClassGraph classGraph = new ClassGraph()
-					.enableAllInfo();
+		ScanResult scanResult;
+		ClassGraph classGraph = new ClassGraph()
+				.enableAllInfo();
 
-			if (pack.isRecursive()) {
+		if (pack.isRecursive()) {
 
-				scanResult = classGraph
-						.acceptPackages(pack.getName())
-						.scan();
+			scanResult = classGraph
+					.acceptPackages(pack.getName())
+					.scan();
 
-			} else {
+		} else {
 
-				scanResult = classGraph
-						.acceptPackagesNonRecursive(pack.getName())
-						.scan();
+			scanResult = classGraph
+					.acceptPackagesNonRecursive(pack.getName())
+					.scan();
 
-			}
+		}
 
-			classNames = scanResult.getAllClasses().getNames();
+		classNames = scanResult.getAllClasses().getNames();
 
-			for (String c : classNames) {
+		for (String c : classNames) {
+
+			try {
 
 				Class<?> clazz = Class.forName(c);
 
@@ -111,10 +112,10 @@ public class ClassTestRule extends AbstractRule {
 				}
 
 				callClassRulesClass(clazz);
-			}
 
-		} catch (Exception e) {
-			LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping package");
+			} catch (Exception e) {
+				LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping class", c);
+			}
 		}
 
 	}
@@ -171,7 +172,7 @@ public class ClassTestRule extends AbstractRule {
 				obj.toString();
 
 			} catch (Exception e) {
-				LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping constructor with params ".concat(StringUtils.join(c.getParameterTypes(), ", ")));
+				LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping constructor", clazz.getName(), StringUtils.join(c.getParameterTypes(), ", "));
 			}
 		}
 

@@ -31,8 +31,7 @@ public enum ErrorCodeEnum {
 	SPRING_002("SPRING_002", RuleIdEnum.SPRING_BOOT, "Autowired bean is null"),
 	SPRING_003("SPRING_003", RuleIdEnum.SPRING_BOOT, "Path not working"),
 	CLASS_001("CLASS_001", RuleIdEnum.CLASS, "Missing packages or classes"),
-	CLASS_002("CLASS_002", RuleIdEnum.CLASS, "Class package list is empty or null"),
-	CLASS_003("CLASS_003", RuleIdEnum.CLASS, "Test error"),
+	CLASS_002("CLASS_002", RuleIdEnum.CLASS, "Test error"),
 	;
 
 	private String errorCode;
