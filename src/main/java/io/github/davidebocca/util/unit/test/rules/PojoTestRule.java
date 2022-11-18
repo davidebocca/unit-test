@@ -90,16 +90,20 @@ public class PojoTestRule extends AbstractRule {
 
 				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Test class ".concat(clazz.getClazz().getName()));
 
+				boolean found = false;
+
 				for (PojoExclusionConf exc : testConf.getExclusions()) {
 					if (exc.getClazz().equals(clazz.getClazz())) {
 						PojoClassExcludedFields tmp = new PojoClassExcludedFields(clazz, new HashSet<>(exc.getFieldsToExclude()));
 						openPojoTestClass(tmp);
-						continue;
-					} else {
-						openPojoTestClass(clazz);
+						found = true;
+						break;
 					}
 				}
 
+				if (!found) {
+					openPojoTestClass(clazz);
+				}
 			}
 
 		} catch (AssertionError e) {
