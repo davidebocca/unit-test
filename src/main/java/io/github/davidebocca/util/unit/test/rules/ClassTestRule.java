@@ -20,6 +20,7 @@ import io.github.davidebocca.util.unit.test.rules.conf.UnitTestClassConf;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
 import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
+import io.github.davidebocca.util.unit.test.utils.Utils;
 
 /**
  * @author cr10248
@@ -101,7 +102,15 @@ public class ClassTestRule extends AbstractRule {
 			classNames = scanResult.getAllClasses().getNames();
 
 			for (String c : classNames) {
-				callClassRulesClass(Class.forName(c));
+
+				Class<?> clazz = Class.forName(c);
+
+				if (!testConf.isIncludeTestClasses() && Utils.isClassTest(clazz)) {
+					LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Skip test class ".concat(clazz.getName()));
+					continue;
+				}
+
+				callClassRulesClass(clazz);
 			}
 
 		} catch (Exception e) {

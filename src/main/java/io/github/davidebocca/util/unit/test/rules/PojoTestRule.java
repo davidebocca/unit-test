@@ -29,6 +29,7 @@ import io.github.davidebocca.util.unit.test.rules.conf.UnitTestPojoConf;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
 import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
+import io.github.davidebocca.util.unit.test.utils.Utils;
 
 /**
  * @author cr10248
@@ -87,6 +88,11 @@ public class PojoTestRule extends AbstractRule {
 			}
 
 			for (PojoClass clazz : pojoClazzList) {
+
+				if (!testConf.isIncludeTestClasses() && Utils.isClassTest(clazz.getClazz())) {
+					LoggingUtils.logTestStep(RuleIdEnum.POJO, "Skip test class ".concat(clazz.getClazz().getName()));
+					continue;
+				}
 
 				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Test class ".concat(clazz.getClazz().getName()));
 
