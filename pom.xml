@@ -3,7 +3,7 @@
 
 	<groupId>io.github.davidebocca</groupId>
 	<artifactId>unit-test</artifactId>
-	<version>0.0.8</version>
+	<version>0.0.9</version>
 
 	<name>Util library for unit-testing</name>
 	<description>Simple library to help developments of util tests</description>
@@ -53,7 +53,7 @@
 
 		<spring-boot-starter-test.version>2.1.5.RELEASE</spring-boot-starter-test.version>
 
-		<classgraph.version>4.8.59</classgraph.version>
+		<classgraph.version>4.8.150</classgraph.version>
 
 		<javadoc.opts>-Xdoclint:none</javadoc.opts>
 
@@ -197,7 +197,7 @@
 				<configuration>
 					<serverId>ossrh</serverId>
 					<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>false</autoReleaseAfterClose>
+					<autoReleaseAfterClose>true</autoReleaseAfterClose>
 				</configuration>
 				<dependencies>
 					<dependency>

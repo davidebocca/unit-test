@@ -6,7 +6,6 @@ package io.github.davidebocca.util.unit.test.rules;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
@@ -23,6 +22,10 @@ import com.openpojo.validation.test.impl.SetterTester;
 import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
 import io.github.davidebocca.util.unit.test.exception.UnitTestException;
 import io.github.davidebocca.util.unit.test.pojo.PojoClassExcludedFields;
+import io.github.davidebocca.util.unit.test.rules.conf.ClassConf;
+import io.github.davidebocca.util.unit.test.rules.conf.PackageConf;
+import io.github.davidebocca.util.unit.test.rules.conf.PojoExclusionConf;
+import io.github.davidebocca.util.unit.test.rules.conf.UnitTestPojoConf;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
 import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
@@ -33,13 +36,9 @@ import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
  */
 public class PojoTestRule extends AbstractRule {
 
-	private String[] pojoPackageRecursively = new String[] {};
-	private String[] pojoPackages = new String[] {};
+	private UnitTestPojoConf testConf;
+
 	private List<PojoClass> pojoClazzList = new ArrayList<>();
-	private List<Class<?>> clazzList = new ArrayList<>();
-
-	private Map<String, List<String>> exclusionMap;
-
 	private Validator validator;
 
 	@Override
@@ -47,38 +46,15 @@ public class PojoTestRule extends AbstractRule {
 		return RuleIdEnum.POJO;
 	}
 
-	public PojoTestRule withPojoPackagesRecursively(String[] pojoPackages, Map<String, List<String>> exclusionMap)
-			throws UnitTestException {
-		this.pojoPackageRecursively = pojoPackages;
-		this.exclusionMap = exclusionMap;
-		return this;
-	}
-
-	public PojoTestRule withPojoPackages(String[] pojoPackages, Map<String, List<String>> exclusionMap)
+	public PojoTestRule withConfiguration(UnitTestPojoConf testConf)
 			throws UnitTestException {
 
-		if (pojoPackages == null || pojoPackages.length == 0) {
+		if (testConf.getClasses().size() == 0 && testConf.getPackages().size() == 0) {
 			LoggingUtils.manageError(ErrorCodeEnum.POJO_001);
 			throw new UnitTestException(ErrorCodeEnum.POJO_001);
 		}
 
-		this.pojoPackages = pojoPackages;
-		this.exclusionMap = exclusionMap;
-
-		return this;
-	}
-
-	public PojoTestRule withPojoClasses(List<Class<?>> pojoClasses, Map<String, List<String>> exclusionMap)
-			throws UnitTestException {
-
-		if (pojoClasses == null || pojoClasses.isEmpty()) {
-			LoggingUtils.manageError(ErrorCodeEnum.POJO_002);
-			throw new UnitTestException(ErrorCodeEnum.POJO_002);
-		}
-
-		this.clazzList = pojoClasses;
-		this.exclusionMap = exclusionMap;
-
+		this.testConf = testConf;
 		return this;
 	}
 
@@ -92,49 +68,56 @@ public class PojoTestRule extends AbstractRule {
 
 			LoggingUtils.logTestStep(RuleIdEnum.POJO, "Build class list to test");
 
-			// package validation
-			for (String pack : this.pojoPackageRecursively) {
+			// add classes from packages
+			for (PackageConf pack : testConf.getPackages()) {
 
-				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding classes recursively from package ".concat(pack));
+				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding classes from package ".concat(pack.toString()));
 
-				pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack, null);
+				if (pack.isRecursive()) {
+					pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack.getName(), null);
+				} else {
+					pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack.getName()));
+				}
 			}
 
-			for (String pack : this.pojoPackages) {
-
-				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding classes from package ".concat(pack));
-
-				pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack));
-			}
-
-			for (Class<?> clazz : this.clazzList) {
-				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding single class ".concat(clazz.getName()));
-
-				pojoClazzList.add(PojoClassFactory.getPojoClass(clazz));
+			// add single classes
+			for (ClassConf cl : testConf.getClasses()) {
+				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding single class ".concat(cl.getClazz().getName()));
+				pojoClazzList.add(PojoClassFactory.getPojoClass(cl.getClazz()));
 			}
 
 			for (PojoClass clazz : pojoClazzList) {
 
-				if (exclusionMap != null && exclusionMap.containsKey(clazz.getName())) {
-					PojoClassExcludedFields tmp = new PojoClassExcludedFields(clazz, new HashSet<>(exclusionMap.get(clazz.getName())));
-					openPojoTestClass(tmp);
-				} else {
-					openPojoTestClass(clazz);
+				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Test class ".concat(clazz.getClazz().getName()));
+
+				for (PojoExclusionConf exc : testConf.getExclusions()) {
+					if (exc.getClazz().equals(clazz.getClazz())) {
+						PojoClassExcludedFields tmp = new PojoClassExcludedFields(clazz, new HashSet<>(exc.getFieldsToExclude()));
+						openPojoTestClass(tmp);
+						continue;
+					} else {
+						openPojoTestClass(clazz);
+					}
 				}
 
 			}
 
 		} catch (AssertionError e) {
-			LoggingUtils.manageError(ErrorCodeEnum.POJO_003, ExceptionUtils.getRootCauseMessage(e));
-			throw new UnitTestException(ErrorCodeEnum.POJO_003, ExceptionUtils.getRootCauseMessage(e));
+			LoggingUtils.manageError(ErrorCodeEnum.POJO_002, ExceptionUtils.getRootCauseMessage(e));
+			throw new UnitTestException(ErrorCodeEnum.POJO_002, ExceptionUtils.getRootCauseMessage(e));
 		}
 
 	}
 
 	private void initializeOpenPojoValidator() {
 
-		validator = ValidatorBuilder.create().with(new GetterMustExistRule()).with(new SetterMustExistRule())
-				.with(new SetterTester()).with(new GetterTester()).with(new SerializableMustHaveSerialVersionUIDRule())
+		validator = ValidatorBuilder
+				.create()
+				.with(new GetterMustExistRule())
+				.with(new SetterMustExistRule())
+				.with(new SetterTester())
+				.with(new GetterTester())
+				.with(new SerializableMustHaveSerialVersionUIDRule())
 				.build();
 
 	}

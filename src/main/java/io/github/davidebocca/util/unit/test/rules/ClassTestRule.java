@@ -5,9 +5,7 @@ package io.github.davidebocca.util.unit.test.rules;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Parameter;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
@@ -16,6 +14,9 @@ import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ScanResult;
 import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
 import io.github.davidebocca.util.unit.test.exception.UnitTestException;
+import io.github.davidebocca.util.unit.test.rules.conf.ClassConf;
+import io.github.davidebocca.util.unit.test.rules.conf.PackageConf;
+import io.github.davidebocca.util.unit.test.rules.conf.UnitTestClassConf;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
 import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
@@ -26,13 +27,7 @@ import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
  */
 public class ClassTestRule extends AbstractRule {
 
-	/**
-	 * 
-	 */
-	private List<Class<?>> clazzList = new ArrayList<>();
-	private String[] classPackages = new String[] {};
-
-	private Map<String, List<String>> exclusionMap;
+	private UnitTestClassConf testConf;
 
 	/**
 	 * 
@@ -42,28 +37,14 @@ public class ClassTestRule extends AbstractRule {
 		return RuleIdEnum.CLASS;
 	}
 
-	public ClassTestRule withClassList(List<Class<?>> clazzList, Map<String, List<String>> exclusionMap) throws UnitTestException {
+	public ClassTestRule withConfiguration(UnitTestClassConf testConf) throws UnitTestException {
 
-		if (clazzList == null || clazzList.isEmpty()) {
+		if (testConf.getClasses().size() == 0 && testConf.getPackages().size() == 0) {
 			LoggingUtils.manageError(ErrorCodeEnum.CLASS_001);
 			throw new UnitTestException(ErrorCodeEnum.CLASS_001);
 		}
 
-		this.clazzList = clazzList;
-		this.exclusionMap = exclusionMap;
-
-		return this;
-	}
-
-	public ClassTestRule withClassPackages(String[] classPackages, Map<String, List<String>> exclusionMap) throws UnitTestException {
-
-		if (classPackages == null || classPackages.length == 0) {
-			LoggingUtils.manageError(ErrorCodeEnum.CLASS_002);
-			throw new UnitTestException(ErrorCodeEnum.CLASS_002);
-		}
-
-		this.classPackages = classPackages;
-		this.exclusionMap = exclusionMap;
+		this.testConf = testConf;
 
 		return this;
 	}
@@ -76,14 +57,15 @@ public class ClassTestRule extends AbstractRule {
 
 		try {
 
-			for (String pack : this.classPackages) {
-				LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Testing package ".concat(pack));
+			for (PackageConf pack : testConf.getPackages()) {
+
+				LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Testing package ".concat(pack.toString()));
 
 				callClassRulesPack(pack);
 			}
 
-			for (Class<?> clazz : this.clazzList) {
-				callClassRulesClass(clazz);
+			for (ClassConf cl : testConf.getClasses()) {
+				callClassRulesClass(cl.getClazz());
 			}
 
 		} catch (AssertionError e) {
@@ -93,11 +75,29 @@ public class ClassTestRule extends AbstractRule {
 
 	}
 
-	private void callClassRulesPack(String pack) {
+	private void callClassRulesPack(PackageConf pack) {
 
 		List<String> classNames;
 
-		try (ScanResult scanResult = new ClassGraph().whitelistPackages(pack).enableClassInfo().scan()) {
+		try {
+			ScanResult scanResult;
+			ClassGraph classGraph = new ClassGraph()
+					.enableAllInfo();
+
+			if (pack.isRecursive()) {
+
+				scanResult = classGraph
+						.acceptPackages(pack.getName())
+						.scan();
+
+			} else {
+
+				scanResult = classGraph
+						.acceptPackagesNonRecursive(pack.getName())
+						.scan();
+
+			}
+
 			classNames = scanResult.getAllClasses().getNames();
 
 			for (String c : classNames) {
@@ -105,7 +105,7 @@ public class ClassTestRule extends AbstractRule {
 			}
 
 		} catch (Exception e) {
-			LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping package", pack);
+			LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping package");
 		}
 
 	}
@@ -161,11 +161,6 @@ public class ClassTestRule extends AbstractRule {
 				// call toString
 				obj.toString();
 
-				// for (PropertyDescriptor pd : Introspector.getBeanInfo(clazz).getPropertyDescriptors()) {
-				// if (pd.getReadMethod() != null && !"class".equals(pd.getName())) {
-				// pd.getReadMethod().invoke(obj);
-				// }
-				// }
 			} catch (Exception e) {
 				LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping constructor with params ".concat(StringUtils.join(c.getParameterTypes(), ", ")));
 			}

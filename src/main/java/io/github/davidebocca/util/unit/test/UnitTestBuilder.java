@@ -5,7 +5,6 @@ package io.github.davidebocca.util.unit.test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
 import io.github.davidebocca.util.unit.test.exception.UnitTestException;
@@ -14,6 +13,8 @@ import io.github.davidebocca.util.unit.test.rules.PojoTestRule;
 import io.github.davidebocca.util.unit.test.rules.SpringBootTestRule;
 import io.github.davidebocca.util.unit.test.rules.UtilClassTestRule;
 import io.github.davidebocca.util.unit.test.rules.VertxTestRule;
+import io.github.davidebocca.util.unit.test.rules.conf.UnitTestClassConf;
+import io.github.davidebocca.util.unit.test.rules.conf.UnitTestPojoConf;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
 import io.github.davidebocca.util.unit.test.rules.utils.SpringBootTestConfig;
@@ -48,126 +49,25 @@ public class UnitTestBuilder {
 
 	/**
 	 * 
-	 * @param pojoPackages
+	 * @param testConf
 	 * @return
 	 * @throws UnitTestException
 	 */
-	public UnitTestBuilder withPojoTestRecursively(String[] pojoPackages) throws UnitTestException {
-		rules.add(((PojoTestRule) getRule(RuleIdEnum.POJO)).withPojoPackagesRecursively(pojoPackages, null));
+	public UnitTestBuilder withPojoTest(UnitTestPojoConf testConf) throws UnitTestException {
+		rules.add(((PojoTestRule) getRule(RuleIdEnum.POJO)).withConfiguration(testConf));
 		return this;
 	}
 
 	/**
 	 * 
-	 * @param pojoPackages
-	 * @param exclusionMap
+	 * @param testConf
 	 * @return
 	 * @throws UnitTestException
 	 */
-	public UnitTestBuilder withPojoTestRecursively(String[] pojoPackages, Map<String, List<String>> exclusionMap)
-			throws UnitTestException {
-		rules.add(((PojoTestRule) getRule(RuleIdEnum.POJO)).withPojoPackagesRecursively(pojoPackages, exclusionMap));
+	public UnitTestBuilder withClassTest(UnitTestClassConf testConf) throws UnitTestException {
+		rules.add(((ClassTestRule) getRule(RuleIdEnum.CLASS)).withConfiguration(testConf));
 		return this;
 	}
-
-	/**
-	 * 
-	 * @param pojoPackages
-	 * @return
-	 * @throws UnitTestException
-	 */
-	public UnitTestBuilder withPojoTest(String[] pojoPackages) throws UnitTestException {
-		rules.add(((PojoTestRule) getRule(RuleIdEnum.POJO)).withPojoPackages(pojoPackages, null));
-		return this;
-
-	}
-
-	/**
-	 * 
-	 * @param pojoPackages
-	 * @param exclusionMap
-	 * @return
-	 * @throws UnitTestException
-	 */
-	public UnitTestBuilder withPojoTest(String[] pojoPackages, Map<String, List<String>> exclusionMap)
-			throws UnitTestException {
-		rules.add(((PojoTestRule) getRule(RuleIdEnum.POJO)).withPojoPackages(pojoPackages, exclusionMap));
-		return this;
-
-	}
-
-	/**
-	 * 
-	 * @param pojoClasses
-	 * @return
-	 * @throws UnitTestException
-	 */
-	public UnitTestBuilder withPojoTest(List<Class<?>> pojoClasses) throws UnitTestException {
-		rules.add(((PojoTestRule) getRule(RuleIdEnum.POJO)).withPojoClasses(pojoClasses, null));
-		return this;
-	}
-
-	/**
-	 * 
-	 * @param pojoClasses
-	 * @param exclusionMap
-	 * @return
-	 * @throws UnitTestException
-	 */
-	public UnitTestBuilder withPojoTest(List<Class<?>> pojoClasses, Map<String, List<String>> exclusionMap)
-			throws UnitTestException {
-		rules.add(((PojoTestRule) getRule(RuleIdEnum.POJO)).withPojoClasses(pojoClasses, exclusionMap));
-		return this;
-	}
-
-	/**
-	 * 
-	 * @param classPackages
-	 * @return
-	 * @throws UnitTestException
-	 */
-	public UnitTestBuilder withClassTest(String[] classPackages) throws UnitTestException {
-		rules.add(((ClassTestRule) getRule(RuleIdEnum.CLASS)).withClassPackages(classPackages, null));
-		return this;
-	}
-
-	/**
-	 * 
-	 * @param classPackages
-	 * @param exclusionMap
-	 * @return
-	 * @throws UnitTestException
-	 */
-	// public UnitTestBuilder withClassTest(String[] classPackages, Map<String, List<String>>
-	// exclusionMap) throws UnitTestException {
-	// rules.add(((ClassTestRule) getRule(RuleIdEnum.CLASS)).withClassPackages(classPackages,
-	// exclusionMap));
-	// return this;
-	// }
-
-	/**
-	 * 
-	 * @param classClasses
-	 * @return
-	 * @throws UnitTestException
-	 */
-	public UnitTestBuilder withClassTest(List<Class<?>> classClasses) throws UnitTestException {
-		rules.add(((ClassTestRule) getRule(RuleIdEnum.CLASS)).withClassList(classClasses, null));
-		return this;
-	}
-
-	/**
-	 * 
-	 * @param classClasses
-	 * @param exclusionMap
-	 * @return
-	 * @throws UnitTestException
-	 */
-	// public UnitTestBuilder withClassTest(List<Class<?>> classClasses, Map<String, List<String>>
-	// exclusionMap) throws UnitTestException {
-	// rules.add(((ClassTestRule) getRule(RuleIdEnum.CLASS)).withClassList(classClasses, exclusionMap));
-	// return this;
-	// }
 
 	/**
 	 * 
