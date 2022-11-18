@@ -30,6 +30,8 @@ public class ClassTestRule extends AbstractRule {
 
 	private UnitTestClassConf testConf;
 
+	private int counter = 1;
+
 	/**
 	 * 
 	 */
@@ -59,9 +61,6 @@ public class ClassTestRule extends AbstractRule {
 		try {
 
 			for (PackageConf pack : testConf.getPackages()) {
-
-				LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Testing package ".concat(pack.toString()));
-
 				callClassRulesPack(pack);
 			}
 
@@ -77,6 +76,8 @@ public class ClassTestRule extends AbstractRule {
 	}
 
 	private void callClassRulesPack(PackageConf pack) {
+
+		LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Testing package ".concat(pack.toString()));
 
 		List<String> classNames;
 
@@ -106,8 +107,13 @@ public class ClassTestRule extends AbstractRule {
 
 				Class<?> clazz = Class.forName(c);
 
+				if (pack.getClassExclusion().getClassesToExclude().contains(clazz)) {
+					LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Exclude class ".concat(clazz.getName()));
+					continue;
+				}
+
 				if (!testConf.isIncludeTestClasses() && Utils.isClassTest(clazz)) {
-					LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Skip test class ".concat(clazz.getName()));
+					LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Skip class ".concat(clazz.getName()));
 					continue;
 				}
 
@@ -122,7 +128,8 @@ public class ClassTestRule extends AbstractRule {
 
 	private void callClassRulesClass(Class<?> clazz) {
 
-		LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Testing class ".concat(clazz.getName()));
+		LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Test " + counter + ") class ".concat(clazz.getName()));
+		counter++;
 
 		Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 

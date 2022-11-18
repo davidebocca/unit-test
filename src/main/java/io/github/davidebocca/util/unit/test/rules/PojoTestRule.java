@@ -23,12 +23,13 @@ import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
 import io.github.davidebocca.util.unit.test.exception.UnitTestException;
 import io.github.davidebocca.util.unit.test.pojo.PojoClassExcludedFields;
 import io.github.davidebocca.util.unit.test.rules.conf.ClassConf;
+import io.github.davidebocca.util.unit.test.rules.conf.FieldExclusionConf;
 import io.github.davidebocca.util.unit.test.rules.conf.PackageConf;
-import io.github.davidebocca.util.unit.test.rules.conf.PojoExclusionConf;
 import io.github.davidebocca.util.unit.test.rules.conf.UnitTestPojoConf;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
 import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
+import io.github.davidebocca.util.unit.test.utils.MyPojoFilter;
 import io.github.davidebocca.util.unit.test.utils.Utils;
 
 /**
@@ -38,6 +39,8 @@ import io.github.davidebocca.util.unit.test.utils.Utils;
 public class PojoTestRule extends AbstractRule {
 
 	private UnitTestPojoConf testConf;
+
+	private int counter = 1;
 
 	private List<PojoClass> pojoClazzList = new ArrayList<>();
 	private Validator validator;
@@ -72,10 +75,12 @@ public class PojoTestRule extends AbstractRule {
 
 			LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding classes from package ".concat(pack.toString()));
 
+			MyPojoFilter filter = new MyPojoFilter(pack.getClassExclusion().getClassesToExclude());
+
 			if (pack.isRecursive()) {
-				pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack.getName(), null);
+				pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack.getName(), filter);
 			} else {
-				pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack.getName()));
+				pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack.getName(), filter));
 			}
 		}
 
@@ -92,11 +97,9 @@ public class PojoTestRule extends AbstractRule {
 				continue;
 			}
 
-			LoggingUtils.logTestStep(RuleIdEnum.POJO, "Test class ".concat(clazz.getClazz().getName()));
-
 			boolean found = false;
 
-			for (PojoExclusionConf exc : testConf.getExclusions()) {
+			for (FieldExclusionConf exc : testConf.getFieldExclusions()) {
 				if (exc.getClazz().equals(clazz.getClazz())) {
 					PojoClassExcludedFields tmp = new PojoClassExcludedFields(clazz, new HashSet<>(exc.getFieldsToExclude()));
 					openPojoTestClass(tmp);
@@ -126,6 +129,10 @@ public class PojoTestRule extends AbstractRule {
 	}
 
 	private void openPojoTestClass(PojoClass clazz) throws UnitTestException {
+
+		LoggingUtils.logTestStep(RuleIdEnum.POJO, "Test " + counter + ") class ".concat(clazz.getName()));
+		counter++;
+
 		try {
 			validator.validate(clazz);
 		} catch (AssertionError e) {

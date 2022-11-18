@@ -5,9 +5,9 @@ package io.github.davidebocca.util.unit.test.rules;
 
 import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
 import io.github.davidebocca.util.unit.test.exception.UnitTestException;
+import io.github.davidebocca.util.unit.test.rules.conf.VertxTestRuleConfig;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
-import io.github.davidebocca.util.unit.test.rules.utils.VertxTestRuleConfig;
 import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
 import io.vertx.ext.web.client.WebClient;
 import io.vertx.ext.web.codec.BodyCodec;

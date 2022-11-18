@@ -13,12 +13,12 @@ import io.github.davidebocca.util.unit.test.rules.PojoTestRule;
 import io.github.davidebocca.util.unit.test.rules.SpringBootTestRule;
 import io.github.davidebocca.util.unit.test.rules.UtilClassTestRule;
 import io.github.davidebocca.util.unit.test.rules.VertxTestRule;
+import io.github.davidebocca.util.unit.test.rules.conf.SpringBootTestConfig;
 import io.github.davidebocca.util.unit.test.rules.conf.UnitTestClassConf;
 import io.github.davidebocca.util.unit.test.rules.conf.UnitTestPojoConf;
+import io.github.davidebocca.util.unit.test.rules.conf.VertxTestRuleConfig;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
-import io.github.davidebocca.util.unit.test.rules.utils.SpringBootTestConfig;
-import io.github.davidebocca.util.unit.test.rules.utils.VertxTestRuleConfig;
 import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
 
 /**

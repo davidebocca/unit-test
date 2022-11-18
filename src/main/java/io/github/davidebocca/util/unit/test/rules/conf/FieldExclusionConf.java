@@ -3,7 +3,7 @@ package io.github.davidebocca.util.unit.test.rules.conf;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PojoExclusionConf {
+public class FieldExclusionConf {
 
 	private Class<?> clazz;
 	private List<String> fieldsToExclude;

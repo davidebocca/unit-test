@@ -5,16 +5,17 @@ import java.util.List;
 
 public class UnitTestPojoConf extends UnitTestConf {
 
-	private List<PojoExclusionConf> pojoExclusions;
+	private List<FieldExclusionConf> fieldExclusions;
 
-	public List<PojoExclusionConf> getExclusions() {
-		if (pojoExclusions == null) {
-			pojoExclusions = new ArrayList<>();
+	public List<FieldExclusionConf> getFieldExclusions() {
+		if (fieldExclusions == null) {
+			fieldExclusions = new ArrayList<>();
 		}
-		return pojoExclusions;
+		return fieldExclusions;
 	}
 
-	public void setExclusions(List<PojoExclusionConf> exclusions) {
-		this.pojoExclusions = exclusions;
+	public void setFieldExclusions(List<FieldExclusionConf> fieldExclusions) {
+		this.fieldExclusions = fieldExclusions;
 	}
+
 }

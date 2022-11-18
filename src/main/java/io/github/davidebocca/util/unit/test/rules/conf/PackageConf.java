@@ -5,6 +5,8 @@ public class PackageConf {
 	private String name;
 	private boolean recursive;
 
+	private ClassExclusionConf classExclusion;
+
 	public String getName() {
 		return name;
 	}
@@ -19,6 +21,17 @@ public class PackageConf {
 
 	public void setRecursive(boolean recursive) {
 		this.recursive = recursive;
+	}
+
+	public ClassExclusionConf getClassExclusion() {
+		if (classExclusion == null) {
+			classExclusion = new ClassExclusionConf();
+		}
+		return classExclusion;
+	}
+
+	public void setClassExclusion(ClassExclusionConf classExclusion) {
+		this.classExclusion = classExclusion;
 	}
 
 	@Override
