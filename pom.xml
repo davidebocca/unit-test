@@ -3,7 +3,7 @@
 
 	<groupId>io.github.davidebocca</groupId>
 	<artifactId>unit-test</artifactId>
-	<version>0.0.7</version>
+	<version>0.0.8</version>
 
 	<name>Util library for unit-testing</name>
 	<description>Simple library to help developments of util tests</description>
@@ -47,7 +47,7 @@
 
 		<vertx.version>3.9.4</vertx.version>
 
-		<log4j.version>2.17.1</log4j.version>
+		<log4j.version>2.19.0</log4j.version>
 
 		<commons-lang3.version>3.9</commons-lang3.version>
 
@@ -81,7 +81,7 @@
 			<artifactId>log4j-api</artifactId>
 			<version>${log4j.version}</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-core</artifactId>

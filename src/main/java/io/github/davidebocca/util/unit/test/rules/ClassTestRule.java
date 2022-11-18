@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import io.github.classgraph.ClassGraph;
@@ -113,11 +114,11 @@ public class ClassTestRule extends AbstractRule {
 
 		LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Testing class ".concat(clazz.getName()));
 
-		try {
-			Constructor<?>[] constructors = clazz.getDeclaredConstructors();
+		Constructor<?>[] constructors = clazz.getDeclaredConstructors();
 
-			for (Constructor<?> c : constructors) {
+		for (Constructor<?> c : constructors) {
 
+			try {
 				if (!c.isAccessible()) {
 					c.setAccessible(true);
 				}
@@ -165,10 +166,9 @@ public class ClassTestRule extends AbstractRule {
 				// pd.getReadMethod().invoke(obj);
 				// }
 				// }
+			} catch (Exception e) {
+				LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping constructor with params ".concat(StringUtils.join(c.getParameterTypes(), ", ")));
 			}
-
-		} catch (Exception e) {
-			LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping class", clazz.getName());
 		}
 
 	}

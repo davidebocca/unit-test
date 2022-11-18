@@ -23,7 +23,7 @@ public class LoggingUtils {
 		// do nothing
 	}
 
-	private static final Logger LOGGER = LogManager.getLogger(LoggingUtils.class.getName());
+	private static final Logger LOGGER = LogManager.getLogger(LoggingUtils.class);
 
 	public static void logTestStep(RuleIdEnum ruleIdEnum, String message) {
 		LOGGER.debug(generateTestStepMessage(ruleIdEnum, message));
