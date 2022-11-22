@@ -8,6 +8,8 @@ public class UnitTestConf {
 	private List<PackageConf> packages;
 	private List<ClassConf> classes;
 
+	private ClassExclusionConf classExclusion;
+
 	private boolean includeTestClasses;
 
 	public List<PackageConf> getPackages() {
@@ -38,6 +40,17 @@ public class UnitTestConf {
 
 	public void setIncludeTestClasses(boolean includeTestClasses) {
 		this.includeTestClasses = includeTestClasses;
+	}
+
+	public ClassExclusionConf getClassExclusion() {
+		if (classExclusion == null) {
+			classExclusion = new ClassExclusionConf();
+		}
+		return classExclusion;
+	}
+
+	public void setClassExclusion(ClassExclusionConf classExclusion) {
+		this.classExclusion = classExclusion;
 	}
 
 }

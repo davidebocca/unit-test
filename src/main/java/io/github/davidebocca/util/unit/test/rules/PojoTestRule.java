@@ -29,7 +29,6 @@ import io.github.davidebocca.util.unit.test.rules.conf.UnitTestPojoConf;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
 import io.github.davidebocca.util.unit.test.utils.LoggingUtils;
-import io.github.davidebocca.util.unit.test.utils.MyPojoFilter;
 import io.github.davidebocca.util.unit.test.utils.Utils;
 
 /**
@@ -75,12 +74,10 @@ public class PojoTestRule extends AbstractRule {
 
 			LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding classes from package ".concat(pack.toString()));
 
-			MyPojoFilter filter = new MyPojoFilter(pack.getClassExclusion().getClassesToExclude());
-
 			if (pack.isRecursive()) {
-				pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack.getName(), filter);
+				pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack.getName(), null);
 			} else {
-				pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack.getName(), filter));
+				pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack.getName(), null));
 			}
 		}
 
@@ -92,6 +89,13 @@ public class PojoTestRule extends AbstractRule {
 
 		for (PojoClass clazz : pojoClazzList) {
 
+			// apply manual exclusions
+			if (testConf.getClassExclusion().getClassesToExclude().contains(clazz.getClazz())) {
+				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Exclude class ".concat(clazz.getClazz().getName()));
+				continue;
+			}
+
+			// exclude test classes
 			if (!testConf.isIncludeTestClasses() && Utils.isClassTest(clazz.getClazz())) {
 				LoggingUtils.logTestStep(RuleIdEnum.POJO, "Skip test class ".concat(clazz.getClazz().getName()));
 				continue;

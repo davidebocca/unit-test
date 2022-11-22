@@ -107,16 +107,6 @@ public class ClassTestRule extends AbstractRule {
 
 				Class<?> clazz = Class.forName(c);
 
-				if (pack.getClassExclusion().getClassesToExclude().contains(clazz)) {
-					LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Exclude class ".concat(clazz.getName()));
-					continue;
-				}
-
-				if (!testConf.isIncludeTestClasses() && Utils.isClassTest(clazz)) {
-					LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Skip class ".concat(clazz.getName()));
-					continue;
-				}
-
 				callClassRulesClass(clazz);
 
 			} catch (Exception e) {
@@ -127,6 +117,18 @@ public class ClassTestRule extends AbstractRule {
 	}
 
 	private void callClassRulesClass(Class<?> clazz) {
+
+		// apply manual exclusions
+		if (testConf.getClassExclusion().getClassesToExclude().contains(clazz)) {
+			LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Exclude class ".concat(clazz.getName()));
+			return;
+		}
+
+		// exclude test classes
+		if (!testConf.isIncludeTestClasses() && Utils.isClassTest(clazz)) {
+			LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Skip test class ".concat(clazz.getName()));
+			return;
+		}
 
 		LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Test " + counter + ") class ".concat(clazz.getName()));
 		counter++;
