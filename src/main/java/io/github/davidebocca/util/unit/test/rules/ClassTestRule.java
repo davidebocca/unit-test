@@ -155,7 +155,7 @@ public class ClassTestRule extends AbstractRule {
 
 						Class<?> paramClass = param.getType();
 
-						params[i] = paramClass.newInstance();
+						params[i] = Utils.instantiateObject(paramClass);
 					}
 
 					obj = c.newInstance(params);

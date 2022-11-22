@@ -8,6 +8,17 @@ public class FieldExclusionConf {
 	private Class<?> clazz;
 	private List<String> fieldsToExclude;
 
+	public FieldExclusionConf() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	public FieldExclusionConf(Class<?> clazz, List<String> fieldsToExclude) {
+		super();
+		this.clazz = clazz;
+		this.fieldsToExclude = fieldsToExclude;
+	}
+
 	public Class<?> getClazz() {
 		return clazz;
 	}
