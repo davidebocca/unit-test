@@ -1,5 +1,6 @@
 package io.github.davidebocca.util.unit.test.utils;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -41,6 +42,10 @@ public class Utils {
 			obj = new ArrayList();
 		} else if (paramClass.equals(Map.class)) {
 			obj = new HashMap<Object, Object>();
+		} else if (paramClass.equals(Long.class)) {
+			obj = new Long("1");
+		} else if (paramClass.equals(BigDecimal.class)) {
+			obj = new BigDecimal("1");
 		} else {
 			obj = paramClass.newInstance();
 		}
