@@ -3,7 +3,7 @@
 
 	<groupId>io.github.davidebocca</groupId>
 	<artifactId>unit-test</artifactId>
-	<version>0.0.16</version>
+	<version>0.0.17</version>
 
 	<name>Util library for unit-testing</name>
 	<description>Simple library to help developments of util tests</description>

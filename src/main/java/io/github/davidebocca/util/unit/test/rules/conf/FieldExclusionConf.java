@@ -13,18 +13,29 @@ public class FieldExclusionConf {
 		// TODO Auto-generated constructor stub
 	}
 
+	/**
+	 * 
+	 * Use this constructor to apply the exclusions to a certain class
+	 * 
+	 * @param clazz
+	 * @param fieldsToExclude
+	 */
 	public FieldExclusionConf(Class<?> clazz, List<String> fieldsToExclude) {
 		super();
 		this.clazz = clazz;
 		this.fieldsToExclude = fieldsToExclude;
 	}
 
-	public Class<?> getClazz() {
-		return clazz;
-	}
-
-	public void setClazz(Class<?> clazz) {
-		this.clazz = clazz;
+	/**
+	 * 
+	 * Use this constructor to exclude the fields from all the classes tested
+	 * 
+	 * @param fieldsToExclude
+	 * 
+	 */
+	public FieldExclusionConf(List<String> fieldsToExclude) {
+		super();
+		this.fieldsToExclude = fieldsToExclude;
 	}
 
 	public List<String> getFieldsToExclude() {
@@ -36,6 +47,10 @@ public class FieldExclusionConf {
 
 	public void setFieldsToExclude(List<String> fieldsToExclude) {
 		this.fieldsToExclude = fieldsToExclude;
+	}
+
+	public Class<?> getClazz() {
+		return clazz;
 	}
 
 }

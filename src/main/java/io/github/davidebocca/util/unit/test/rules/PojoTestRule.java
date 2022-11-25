@@ -104,7 +104,7 @@ public class PojoTestRule extends AbstractRule {
 			boolean found = false;
 
 			for (FieldExclusionConf exc : testConf.getFieldExclusions()) {
-				if (exc.getClazz().equals(clazz.getClazz())) {
+				if (exc.getClazz() == null || exc.getClazz().equals(clazz.getClazz())) {
 					PojoClassExcludedFields tmp = new PojoClassExcludedFields(clazz, new HashSet<>(exc.getFieldsToExclude()));
 					openPojoTestClass(tmp);
 					found = true;
