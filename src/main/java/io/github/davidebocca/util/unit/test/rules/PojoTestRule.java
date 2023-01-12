@@ -10,6 +10,8 @@ import java.util.List;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import com.openpojo.reflection.PojoClass;
+import com.openpojo.reflection.PojoClassFilter;
+import com.openpojo.reflection.filters.FilterNestedClasses;
 import com.openpojo.reflection.impl.PojoClassFactory;
 import com.openpojo.validation.Validator;
 import com.openpojo.validation.ValidatorBuilder;
@@ -74,10 +76,16 @@ public class PojoTestRule extends AbstractRule {
 
 			LoggingUtils.logTestStep(RuleIdEnum.POJO, "Adding classes from package ".concat(pack.toString()));
 
+			PojoClassFilter filter = null;
+
+			if (pack.isExcludeNestedClasses()) {
+				filter = new FilterNestedClasses();
+			}
+
 			if (pack.isRecursive()) {
-				pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack.getName(), null);
+				pojoClazzList = PojoClassFactory.getPojoClassesRecursively(pack.getName(), filter);
 			} else {
-				pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack.getName(), null));
+				pojoClazzList.addAll(PojoClassFactory.getPojoClasses(pack.getName(), filter));
 			}
 		}
 

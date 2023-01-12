@@ -4,6 +4,7 @@ public class PackageConf {
 
 	private String name;
 	private boolean recursive;
+	private boolean excludeNestedClasses;
 
 	public String getName() {
 		return name;
@@ -24,5 +25,13 @@ public class PackageConf {
 	@Override
 	public String toString() {
 		return "UnitTestPackageConf [name=" + name + ", recursive=" + recursive + "]";
+	}
+
+	public boolean isExcludeNestedClasses() {
+		return excludeNestedClasses;
+	}
+
+	public void setExcludeNestedClasses(boolean excludeNestedClasses) {
+		this.excludeNestedClasses = excludeNestedClasses;
 	}
 }
