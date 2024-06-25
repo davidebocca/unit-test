@@ -3,7 +3,7 @@
 
 	<groupId>io.github.davidebocca</groupId>
 	<artifactId>unit-test</artifactId>
-	<version>0.0.18</version>
+	<version>0.0.19</version>
 
 	<name>Util library for unit-testing</name>
 	<description>Simple library to help developments of util tests</description>
@@ -43,7 +43,7 @@
 
 		<nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
 
-		<openpojo.version>0.8.10</openpojo.version>
+		<openpojo.version>0.9.1</openpojo.version>
 
 		<vertx.version>3.9.4</vertx.version>
 
