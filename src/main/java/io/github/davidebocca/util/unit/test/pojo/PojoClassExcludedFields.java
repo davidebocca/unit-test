@@ -165,4 +165,10 @@ public class PojoClassExcludedFields implements PojoClass {
 		return clazz.isPackagePrivate();
 	}
 
+	@Override
+	public PojoClass getEnclosingClass() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
