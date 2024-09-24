@@ -6,6 +6,7 @@ import java.util.List;
 public class ClassExclusionConf {
 
 	private List<Class<?>> classesToExclude;
+	private List<String> classesToExcludeStr;
 
 	public List<Class<?>> getClassesToExclude() {
 		if (classesToExclude == null) {
@@ -16,6 +17,17 @@ public class ClassExclusionConf {
 
 	public void setClassesToExclude(List<Class<?>> classesToExclude) {
 		this.classesToExclude = classesToExclude;
+	}
+
+	public List<String> getClassesToExcludeStr() {
+		if (classesToExcludeStr == null) {
+			classesToExcludeStr = new ArrayList<>();
+		}
+		return classesToExcludeStr;
+	}
+
+	public void setClassesToExcludeStr(List<String> classesToExcludeStr) {
+		this.classesToExcludeStr = classesToExcludeStr;
 	}
 
 }

@@ -103,7 +103,16 @@ public class ClassTestRule extends AbstractRule {
 
 		for (String c : classNames) {
 
+			LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Scanning class ".concat(c));
+
 			try {
+
+				for (String cl : testConf.getClassExclusion().getClassesToExcludeStr()) {
+					if (cl.equals(c)) {
+						LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Exclude class from string ".concat(c));
+						return;
+					}
+				}
 
 				Class<?> clazz = Class.forName(c);
 
