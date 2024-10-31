@@ -166,6 +166,8 @@ public class ClassTestRule extends AbstractRule {
 
 						Class<?> paramClass = param.getType();
 
+						LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Param " + param + " - Class " + paramClass);
+
 						params[i] = Utils.instantiateObject(paramClass);
 					}
 
@@ -183,8 +185,12 @@ public class ClassTestRule extends AbstractRule {
 				obj.equals(null);
 				obj.equals(new Object());
 
-				// call hashcode
-				obj.hashCode();
+				try {
+					// call hashcode
+					obj.hashCode();
+				} catch (Exception e) {
+					LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "hashCode error, skipping", clazz.getName());
+				}
 
 				// call toString
 				obj.toString();

@@ -46,6 +46,12 @@ public class Utils {
 			obj = new Long("1");
 		} else if (paramClass.equals(BigDecimal.class)) {
 			obj = new BigDecimal("1");
+		} else if (paramClass.equals(Integer.class)) {
+			obj = new Integer("1");
+		} else if (paramClass.equals(Double.class)) {
+			obj = new Double(1);
+		} else if (paramClass.equals(byte[].class)) {
+			obj = "a".getBytes();
 		} else {
 			obj = paramClass.newInstance();
 		}
