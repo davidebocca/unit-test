@@ -1,6 +1,7 @@
 package io.github.davidebocca.util.unit.test.utils;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -52,6 +53,8 @@ public class Utils {
 			obj = new Double(1);
 		} else if (paramClass.equals(byte[].class)) {
 			obj = "a".getBytes();
+		} else if (paramClass.equals(Timestamp.class)) {
+			obj = new Timestamp(System.currentTimeMillis());
 		} else {
 			obj = paramClass.newInstance();
 		}
