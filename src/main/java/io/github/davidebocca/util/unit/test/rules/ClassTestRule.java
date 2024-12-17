@@ -89,6 +89,7 @@ public class ClassTestRule extends AbstractRule {
 
 			scanResult = classGraph
 					.acceptPackages(pack.getName())
+					.rejectPackages(pack.getExcludedList().stream().toArray(String[]::new))
 					.scan();
 
 		} else {
@@ -105,6 +106,8 @@ public class ClassTestRule extends AbstractRule {
 
 		for (String c : classNames) {
 
+			boolean exclude = false;
+
 			LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Scanning class ".concat(c));
 
 			try {
@@ -112,13 +115,15 @@ public class ClassTestRule extends AbstractRule {
 				for (String cl : testConf.getClassExclusion().getClassesToExcludeStr()) {
 					if (cl.equals(c)) {
 						LoggingUtils.logTestStep(RuleIdEnum.CLASS, "Exclude class from string ".concat(c));
+						exclude = true;
 						continue;
 					}
 				}
 
-				Class<?> clazz = Class.forName(c);
-
-				callClassRulesClass(clazz);
+				if (!exclude) {
+					Class<?> clazz = Class.forName(c);
+					callClassRulesClass(clazz);
+				}
 
 			} catch (Exception e) {
 				LoggingUtils.logTestWarning(RuleIdEnum.CLASS, "Reflection error, skipping class", c);

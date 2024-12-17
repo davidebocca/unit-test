@@ -1,8 +1,12 @@
 package io.github.davidebocca.util.unit.test.rules.conf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class PackageConf {
 
 	private String name;
+	private List<String> excludedList;
 	private boolean recursive;
 	private boolean excludeNestedClasses;
 
@@ -18,13 +22,15 @@ public class PackageConf {
 		return recursive;
 	}
 
-	public void setRecursive(boolean recursive) {
-		this.recursive = recursive;
+	public List<String> getExcludedList() {
+		if (excludedList == null) {
+			excludedList = new ArrayList<String>();
+		}
+		return excludedList;
 	}
 
-	@Override
-	public String toString() {
-		return "UnitTestPackageConf [name=" + name + ", recursive=" + recursive + "]";
+	public void setRecursive(boolean recursive) {
+		this.recursive = recursive;
 	}
 
 	public boolean isExcludeNestedClasses() {
@@ -34,4 +40,10 @@ public class PackageConf {
 	public void setExcludeNestedClasses(boolean excludeNestedClasses) {
 		this.excludeNestedClasses = excludeNestedClasses;
 	}
+
+	@Override
+	public String toString() {
+		return "PackageConf [name=" + name + ", excludedList=" + excludedList + ", recursive=" + recursive + ", excludeNestedClasses=" + excludeNestedClasses + "]";
+	}
+
 }
