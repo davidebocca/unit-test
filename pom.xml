@@ -51,7 +51,7 @@
 
 		<log4j.version>2.19.0</log4j.version>
 
-		<commons-lang3.version>3.9</commons-lang3.version>
+		<commons-lang3.version>3.18.0</commons-lang3.version>
 
 		<spring-boot-starter-test.version>2.1.5.RELEASE</spring-boot-starter-test.version>
 
