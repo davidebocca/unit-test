@@ -49,7 +49,7 @@
 
 		<vertx.version>3.9.4</vertx.version>
 
-		<log4j.version>2.19.0</log4j.version>
+		<log4j.version>2.25.3</log4j.version>
 
 		<commons-lang3.version>3.9</commons-lang3.version>
 
