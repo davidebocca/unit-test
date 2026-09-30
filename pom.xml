@@ -5,7 +5,7 @@
 
 	<groupId>io.github.davidebocca</groupId>
 	<artifactId>unit-test</artifactId>
-	<version>0.0.24</version>
+	<version>0.0.25</version>
 
 	<name>Util library for unit-testing</name>
 	<description>Simple library to help developments of util tests</description>
@@ -49,8 +49,6 @@
 
 		<vertx.version>3.9.4</vertx.version>
 
-		<log4j.version>2.19.0</log4j.version>
-
 		<commons-lang3.version>3.9</commons-lang3.version>
 
 		<spring-boot-starter-test.version>2.1.5.RELEASE</spring-boot-starter-test.version>
@@ -75,19 +73,6 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons-lang3.version}</version>
-		</dependency>
-
-		<!-- Logging -->
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>${log4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>${log4j.version}</version>
 		</dependency>
 
 		<!-- OpenPojo -->
@@ -187,7 +172,7 @@
 			<plugin>
 				<groupId>org.sonatype.central</groupId>
 				<artifactId>central-publishing-maven-plugin</artifactId>
-				<version>0.6.0</version>
+				<version>0.9.0</version>
 				<extensions>true</extensions>
 				<configuration>
 					<publishingServerId>central</publishingServerId>

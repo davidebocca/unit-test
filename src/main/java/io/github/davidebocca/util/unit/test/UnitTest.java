@@ -5,9 +5,8 @@ package io.github.davidebocca.util.unit.test;
 
 import java.text.MessageFormat;
 import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import io.github.davidebocca.util.unit.test.exception.UnitTestException;
 import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
@@ -17,11 +16,6 @@ import io.github.davidebocca.util.unit.test.rules.utils.AbstractRule;
  *
  */
 public class UnitTest {
-
-	/**
-	 * 
-	 */
-	private static final Logger LOGGER = LogManager.getLogger(UnitTest.class.getName());
 
 	/**
 	 * 
@@ -39,11 +33,11 @@ public class UnitTest {
 	 */
 	public UnitTest(List<AbstractRule> rules) {
 
-		LOGGER.debug("                 ");
-		LOGGER.debug("*****************");
-		LOGGER.debug("    UNIT TEST    ");
-		LOGGER.debug("*****************");
-		LOGGER.debug("                 ");
+		System.out.println("                 ");
+		System.out.println("*****************");
+		System.out.println("    UNIT TEST    ");
+		System.out.println("*****************");
+		System.out.println("                 ");
 
 		this.rules = rules;
 	}
@@ -60,7 +54,7 @@ public class UnitTest {
 
 			AbstractRule rule = rules.get(i);
 
-			LOGGER.debug(MessageFormat.format("Executing rule {0} ({1} of {2})",
+			System.out.println(MessageFormat.format("Executing rule {0} ({1} of {2})",
 					rule.getRuleId().name(), j++, rules.size()));
 
 			rule.executeTest();

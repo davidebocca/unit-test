@@ -7,11 +7,11 @@ import java.text.MessageFormat;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import io.github.davidebocca.util.unit.test.exception.ErrorCodeEnum;
 import io.github.davidebocca.util.unit.test.rules.utils.RuleIdEnum;
+
+import static java.lang.System.out;
 
 /**
  * @author cr10248
@@ -23,19 +23,16 @@ public class LoggingUtils {
 		// do nothing
 	}
 
-	private static final Logger LOGGER = LogManager.getLogger(LoggingUtils.class);
-
 	public static void logTestStep(RuleIdEnum ruleIdEnum, String message) {
-		LOGGER.debug(generateTestStepMessage(ruleIdEnum, message));
+		out.println(generateTestStepMessage(ruleIdEnum, message));
 	}
 
 	public static void logTestWarning(RuleIdEnum ruleIdEnum, String message, String... extraParams) {
-		LOGGER.warn(generateGenericMessage(ruleIdEnum, message, extraParams));
+		out.println(generateGenericMessage(ruleIdEnum, message, extraParams));
 	}
 
 	public static void manageError(ErrorCodeEnum errorCode, String... extraParams) {
-		String message = generateErrorMessage(errorCode, null, extraParams);
-		LOGGER.error(message);
+		out.println(generateErrorMessage(errorCode, null, extraParams));
 	}
 
 	public static void manageErrorWithException(ErrorCodeEnum errorCode, Throwable exception, String... extraParams) {
@@ -43,9 +40,9 @@ public class LoggingUtils {
 		String message = generateErrorMessage(errorCode, exception, extraParams);
 
 		if (exception == null) {
-			LOGGER.error(message);
+			out.println(message);
 		} else {
-			LOGGER.error(message, exception);
+			out.println(message + exception);
 		}
 
 	}
